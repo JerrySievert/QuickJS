@@ -41,7 +41,7 @@ CONFIG_DEFAULT_AR=y
 endif
 
 # installation directory
-prefix=/usr/local
+prefix?=/usr/local
 
 # use the gprof profiler
 #CONFIG_PROFILE=y
@@ -60,7 +60,7 @@ endif
 ifdef CONFIG_CLANG
   HOST_CC=clang
   CC=$(CROSS_PREFIX)clang
-  CFLAGS=-fPIC -O3 -Wall -MMD -MF $(OBJDIR)/$(@F).d
+  CFLAGS += -Wall -MMD -MF $(OBJDIR)/$(@F).d
   CFLAGS += -Wextra
   CFLAGS += -Wno-sign-compare
   CFLAGS += -Wno-missing-field-initializers
@@ -81,7 +81,7 @@ ifdef CONFIG_CLANG
 else
   HOST_CC=gcc
   CC=$(CROSS_PREFIX)gcc
-  CFLAGS=-fPIC -O3 -Wall -MMD -MF $(OBJDIR)/$(@F).d
+  CFLAGS += -Wall -MMD -MF $(OBJDIR)/$(@F).d
   CFLAGS += -Wno-array-bounds -Wno-format-truncation
   ifdef CONFIG_LTO
     AR=$(CROSS_PREFIX)gcc-ar
@@ -331,7 +331,7 @@ clean:
 
 install: all
 	mkdir -p "$(DESTDIR)$(prefix)/bin"
-	$(STRIP) qjs qjsbn qjsc qjsbnc
+	$(STRIP) qjs$(EXE) qjsbn$(EXE) qjsc$(EXE) qjsbnc$(EXE)
 	install -m755 qjs qjsbn qjsc qjsbnc "$(DESTDIR)$(prefix)/bin"
 	ln -sf qjsbn "$(DESTDIR)$(prefix)/bin/qjscalc"
 	mkdir -p "$(DESTDIR)$(prefix)/lib/quickjs"
