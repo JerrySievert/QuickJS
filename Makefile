@@ -51,7 +51,7 @@ prefix=/usr/local
 OBJDIR=.obj
 
 ifdef CONFIG_WIN32
-  CROSS_PREFIX=i686-w64-mingw32-
+  CROSS_PREFIX=
   EXE=.exe
 else
   CROSS_PREFIX=
