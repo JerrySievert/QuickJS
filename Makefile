@@ -1,6 +1,6 @@
 #
 # QuickJS Javascript Engine
-# 
+#
 # Copyright (c) 2017-2019 Fabrice Bellard
 # Copyright (c) 2017-2019 Charlie Gordon
 #
@@ -60,7 +60,7 @@ endif
 ifdef CONFIG_CLANG
   HOST_CC=clang
   CC=$(CROSS_PREFIX)clang
-  CFLAGS=-g -Wall -MMD -MF $(OBJDIR)/$(@F).d
+  CFLAGS=-fPIC -O3 -Wall -MMD -MF $(OBJDIR)/$(@F).d
   CFLAGS += -Wextra
   CFLAGS += -Wno-sign-compare
   CFLAGS += -Wno-missing-field-initializers
@@ -81,7 +81,7 @@ ifdef CONFIG_CLANG
 else
   HOST_CC=gcc
   CC=$(CROSS_PREFIX)gcc
-  CFLAGS=-g -Wall -MMD -MF $(OBJDIR)/$(@F).d
+  CFLAGS=-fPIC -O3 -Wall -MMD -MF $(OBJDIR)/$(@F).d
   CFLAGS += -Wno-array-bounds -Wno-format-truncation
   ifdef CONFIG_LTO
     AR=$(CROSS_PREFIX)gcc-ar
@@ -99,7 +99,7 @@ CFLAGS_DEBUG=$(CFLAGS) -O0
 CFLAGS_SMALL=$(CFLAGS) -Os
 CFLAGS_OPT=$(CFLAGS) -O2
 CFLAGS_NOLTO:=$(CFLAGS_OPT)
-LDFLAGS=-g
+LDFLAGS=
 ifdef CONFIG_LTO
 CFLAGS_SMALL+=-flto
 CFLAGS_OPT+=-flto
@@ -240,10 +240,10 @@ libquickjs.bn.a: $(patsubst %.o, %.nolto.o, $(QJSBN_LIB_OBJS))
 	$(AR) rcs $@ $^
 endif # CONFIG_LTO
 
-repl.c: $(QJSC) repl.js 
+repl.c: $(QJSC) repl.js
 	$(QJSC) -c -o $@ -m repl.js
 
-repl-bn.c: $(QJSBNC) repl.js 
+repl-bn.c: $(QJSBNC) repl.js
 	$(QJSBNC) -c -o $@ -m repl.js
 
 qjscalc.c: $(QJSBNC) qjscalc.js
@@ -325,7 +325,7 @@ unicode_gen: $(OBJDIR)/unicode_gen.host.o $(OBJDIR)/cutils.host.o libunicode.c u
 clean:
 	rm -f repl.c repl-bn.c qjscalc.c out.c
 	rm -f *.a *.so *.o *.d *~ jscompress unicode_gen regexp_test $(PROGS)
-	rm -f hello.c hello_module.c c_module.c 
+	rm -f hello.c hello_module.c c_module.c
 	rm -rf $(OBJDIR)/ *.dSYM/ qjs-debug qjsbn-debug
 	rm -rf run-test262-debug run-test262-32 run-test262-bn32
 
@@ -384,11 +384,11 @@ $(OBJDIR)/fib.o: examples/fib.c
 ###############################################################################
 # documentation
 
-DOCS=doc/quickjs.pdf doc/quickjs.html doc/jsbignum.pdf doc/jsbignum.html 
+DOCS=doc/quickjs.pdf doc/quickjs.html doc/jsbignum.pdf doc/jsbignum.html
 
 build_doc: $(DOCS)
 
-clean_doc: 
+clean_doc:
 	rm -f $(DOCS)
 
 doc/%.pdf: doc/%.texi
