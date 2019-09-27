@@ -146,7 +146,7 @@ ifeq ($(CROSS_PREFIX),)
 ifdef CONFIG_ASAN
 PROGS+=
 else
-PROGS+=examples/hello examples/hello_module examples/c_module
+#PROGS+=examples/hello examples/hello_module examples/c_module
 endif
 endif
 
@@ -346,40 +346,40 @@ endif
 # examples
 
 # example of static JS compilation
-HELLO_SRCS=examples/hello.js
-HELLO_OPTS=-fno-string-normalize -fno-map -fno-promise -fno-typedarray \
-           -fno-typedarray -fno-regexp -fno-json -fno-eval -fno-proxy \
-           -fno-date -fno-module-loader
+#HELLO_SRCS=examples/hello.js
+#HELLO_OPTS=-fno-string-normalize -fno-map -fno-promise -fno-typedarray \
+#           -fno-typedarray -fno-regexp -fno-json -fno-eval -fno-proxy \
+#           -fno-date -fno-module-loader
 
-hello.c: $(QJSC) $(HELLO_SRCS)
-	$(QJSC) -e $(HELLO_OPTS) -o $@ $(HELLO_SRCS)
+#hello.c: $(QJSC) $(HELLO_SRCS)
+#	$(QJSC) -e $(HELLO_OPTS) -o $@ $(HELLO_SRCS)
 
-ifdef CONFIG_M32
-examples/hello: $(OBJDIR)/hello.m32s.o $(patsubst %.o, %.m32s.o, $(QJS_LIB_OBJS))
-	$(CC) -m32 $(LDFLAGS) -o $@ $^ $(LIBS)
-else
-examples/hello: $(OBJDIR)/hello.o $(QJS_LIB_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
-endif
+#ifdef CONFIG_M32
+#examples/hello: $(OBJDIR)/hello.m32s.o $(patsubst %.o, %.m32s.o, $(QJS_LIB_OBJS))
+#	$(CC) -m32 $(LDFLAGS) -o $@ $^ $(LIBS)
+#else
+#examples/hello: $(OBJDIR)/hello.o $(QJS_LIB_OBJS)
+#	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+#endif
 
 # example of static JS compilation with modules
-HELLO_MODULE_SRCS=examples/hello_module.js
-HELLO_MODULE_OPTS=-fno-string-normalize -fno-map -fno-promise -fno-typedarray \
-           -fno-typedarray -fno-regexp -fno-json -fno-eval -fno-proxy \
-           -fno-date -m
-examples/hello_module: $(QJSC) libquickjs$(LTOEXT).a $(HELLO_MODULE_SRCS)
-	$(QJSC) $(HELLO_MODULE_OPTS) -o $@ $(HELLO_MODULE_SRCS)
+#HELLO_MODULE_SRCS=examples/hello_module.js
+#HELLO_MODULE_OPTS=-fno-string-normalize -fno-map -fno-promise -fno-typedarray \
+#           -fno-typedarray -fno-regexp -fno-json -fno-eval -fno-proxy \
+#           -fno-date -m
+#examples/hello_module: $(QJSC) libquickjs$(LTOEXT).a $(HELLO_MODULE_SRCS)
+#	$(QJSC) $(HELLO_MODULE_OPTS) -o $@ $(HELLO_MODULE_SRCS)
 
 # use of an external C module (static compilation)
 
-c_module.c: $(QJSC) examples/c_module.js
-	$(QJSC) -e -M examples/fib.so,fib -m -o $@ examples/c_module.js
+#c_module.c: $(QJSC) examples/c_module.js
+#	$(QJSC) -e -M examples/fib.so,fib -m -o $@ examples/c_module.js
 
-examples/c_module: $(OBJDIR)/c_module.o $(OBJDIR)/fib.o libquickjs$(LTOEXT).a
-	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+#examples/c_module: $(OBJDIR)/c_module.o $(OBJDIR)/fib.o libquickjs$(LTOEXT).a
+#	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-$(OBJDIR)/fib.o: examples/fib.c
-	$(CC) $(CFLAGS_OPT) -c -o $@ $<
+#$(OBJDIR)/fib.o: examples/fib.c
+#	$(CC) $(CFLAGS_OPT) -c -o $@ $<
 
 ###############################################################################
 # documentation

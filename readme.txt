@@ -7,3 +7,4 @@ Local changes:
 * added `-fPIC` for compilation
 * removed `-g` and replaced with `-O3`
 * changed `CONFIG_WIN32` to allow ming-gcc compilation on windows
+* removed example compilation, it fails on native windows
