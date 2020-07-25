@@ -50,11 +50,12 @@ prefix?=/usr/local
 
 OBJDIR=.obj
 
-ifdef CONFIG_WIN32
+ifndef CROSS_PREFIX
   CROSS_PREFIX=
+endif
+ifdef CONFIG_WIN32
   EXE=.exe
 else
-  CROSS_PREFIX=
   EXE=
 endif
 ifdef CONFIG_CLANG
@@ -163,6 +164,8 @@ QJSBN_OBJS=$(OBJDIR)/qjs.bn.o $(OBJDIR)/repl-bn.bn.o $(OBJDIR)/qjscalc.bn.o $(QJ
 LIBS=-lm
 ifndef CONFIG_WIN32
 LIBS+=-ldl
+else
+LIBS+=-lpthread
 endif
 
 $(OBJDIR):
@@ -332,7 +335,7 @@ clean:
 install: all
 	mkdir -p "$(DESTDIR)$(prefix)/bin"
 	$(STRIP) qjs$(EXE) qjsbn$(EXE) qjsc$(EXE) qjsbnc$(EXE)
-	install -m755 qjs qjsbn qjsc qjsbnc "$(DESTDIR)$(prefix)/bin"
+	install -m755 qjs$(EXE) qjsbn$(EXE) qjsc$(EXE) qjsbnc$(EXE) "$(DESTDIR)$(prefix)/bin"
 	ln -sf qjsbn "$(DESTDIR)$(prefix)/bin/qjscalc"
 	mkdir -p "$(DESTDIR)$(prefix)/lib/quickjs"
 	install -m644 libquickjs.a libquickjs.bn.a "$(DESTDIR)$(prefix)/lib/quickjs"
