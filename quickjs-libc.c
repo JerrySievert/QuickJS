@@ -45,7 +45,7 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
-#if defined(__APPLE__)
+#if defined(__APPLE__) || defined(__FreeBSD__)
 typedef sig_t sighandler_t;
 #endif
 #endif
