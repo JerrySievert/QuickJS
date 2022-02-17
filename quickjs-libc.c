@@ -47,6 +47,8 @@
 #include <sys/wait.h>
 #if defined(__APPLE__) || defined(__FreeBSD__)
 typedef sig_t sighandler_t;
+#elif defined(__HAIKU__)
+typedef __sighandler_t sighandler_t;
 #endif
 #endif
 
