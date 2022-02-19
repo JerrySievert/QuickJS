@@ -34,10 +34,9 @@
 #include <math.h>
 #if defined(__APPLE__)
 #include <malloc/malloc.h>
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__HAIKU__)
 #include <malloc.h>
-#endif
-#if defined(__FreeBSD__)
+#elif defined(__FreeBSD__)
 #include <malloc_np.h> // for malloc_usable_size
 #endif
 
